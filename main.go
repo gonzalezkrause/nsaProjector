@@ -1,18 +1,22 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"math/rand"
+	"os"
 	"strings"
 	"time"
 )
 
 var nounlist = []string{
-	"aardvark", "abyssinian", "accelerator", "accordion", "account", "accountant", "acknowledgment", "acoustic", "acrylic",
-	"act", "action", "active", "activity", "actor", "actress", "adapter", "addition", "address", "adjustment", "adult",
-	"advantage", "advertisement", "advice", "afghanistan", "africa", "aftermath", "afternoon", "aftershave", "afterthought",
-	"age", "agenda", "agreement", "air", "airbus", "airmail", "airplane", "airport", "airship", "alarm", "albatross", "alcohol",
-	"algebra", "algeria", "alibi", "alley", "alligator", "alloy", "almanac", "alphabet", "alto", "aluminium", "aluminum",
+	"aardvark", "abyssinian", "accelerator", "accordion", "account", "accountant",
+	"acknowledgment", "acoustic", "acrylic", "act", "action", "active", "activity", "actor",
+	"actress", "adapter", "addition", "address", "adjustment", "adult", "advantage",
+	"advertisement", "advice", "afghanistan", "africa", "aftermath", "afternoon", "aftershave",
+	"afterthought", "age", "agenda", "agreement", "air", "airbus", "airmail", "airplane",
+	"airport", "airship", "alarm", "albatross", "alcohol", "algebra", "algeria", "alibi",
+	"alley", "alligator", "alloy", "almanac", "alphabet", "alto", "aluminium", "aluminum",
 	"ambulance", "america", "amount", "amusement", "anatomy", "anethesiologist", "anger", "angle", "angora", "animal",
 	"anime", "ankle", "answer", "ant", "antarctica", "anteater", "antelope", "anthony", "anthropology", "apartment",
 	"apology", "apparatus", "apparel", "appeal", "appendix", "apple", "appliance", "approval", "april", "aquarius",
@@ -203,11 +207,33 @@ var nounlist = []string{
 	"zipper", "zone", "zoo", "zoology",
 }
 
+var makeFolder bool
+var prefix string
+
+func init() {
+	flag.BoolVar(&makeFolder, "f", makeFolder, "Creates a folder with the project name")
+	flag.StringVar(&prefix, "p", "", "Prefix for the name 'banana' => 'BANANATURRET'")
+}
+
 func main() {
+	flag.Parse()
+
+	var n string
 	s := len(nounlist)
 	r := rand.New(rand.NewSource(time.Now().UnixNano()))
 	a := nounlist[r.Intn(s)]
 	b := nounlist[r.Intn(s)]
 
-	fmt.Printf("%s%s\n", strings.ToUpper(a), strings.ToUpper(b))
+	if prefix != "" {
+		n = fmt.Sprintf("%s%s", strings.ToUpper(prefix), strings.ToUpper(a))
+	} else {
+		n = fmt.Sprintf("%s%s", strings.ToUpper(a), strings.ToUpper(b))
+	}
+
+	if makeFolder {
+		fmt.Printf("Creating folder: '%s'\n", n)
+		os.Mkdir(n, 0700)
+	} else {
+		fmt.Println(n)
+	}
 }
