@@ -6,6 +6,7 @@ Prints NSA project names to cli
 
 Simply run `go install`.
 
+## Usage
 ### Generate a new name
 
 ```bash
