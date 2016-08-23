@@ -80,10 +80,10 @@ var nounlist = []string{
 	"fairies", "fall", "family", "fan", "fang", "farm", "farmer", "fat", "father", "father-in-law", "faucet", "fear", "feast",
 	"feather", "feature", "february", "fedelini", "feedback", "feeling", "feet", "felony", "female", "fender", "ferry", "ferryboat",
 	"fertilizer", "fiber", "fiberglass", "fibre", "fiction", "field", "fifth", "fight", "fighter", "file", "find", "fine", "finger",
-	"fir", "fire", "fired", "fireman", "fireplace", "firewall", "fish", "fisherman", "flag", "flame", "flare", "flat", "flavor",
-	"flax", "flesh", "flight", "flock", "flood", "floor", "flower", "flugelhorn", "flute", "fly", "foam", "fog", "fold", "font",
-	"food", "foot", "football", "footnote", "force", "forecast", "forehead", "forest", "forgery", "fork", "form", "format",
-	"fortnight", "foundation", "fountain", "fowl", "fox", "foxglove", "fragrance", "frame", "france", "freckle", "freeze",
+	"fir", "fire", "fired", "fireman", "fireplace", "firewall", "fish", "fisherman", "flag", "flame", "flaming", "flamingo", "flare",
+	"flat", "flavor", "flax", "flesh", "flight", "flock", "flood", "floor", "flower", "flugelhorn", "flute", "fly", "foam", "fog",
+	"fold", "font", "food", "foot", "football", "footnote", "force", "forecast", "forehead", "forest", "forgery", "fork", "form",
+	"format", "fortnight", "foundation", "fountain", "fowl", "fox", "foxglove", "fragrance", "frame", "france", "freckle", "freeze",
 	"freezer", "freighter", "french", "freon", "friction", "friday", "fridge", "friend", "frog", "front", "frost", "frown",
 	"fruit", "fuel", "fur", "furniture", "galley", "gallon", "game", "gander", "garage", "garden", "garlic", "gas",
 	"gasoline", "gate", "gateway", "gauge", "gazelle", "gear", "gearshift", "geese", "gemini", "gender", "geography",
@@ -219,10 +219,7 @@ func main() {
 	flag.Parse()
 
 	var n string
-	s := len(nounlist)
-	r := rand.New(rand.NewSource(time.Now().UnixNano()))
-	a := nounlist[r.Intn(s)]
-	b := nounlist[r.Intn(s)]
+	a, b := genName()
 
 	if prefix != "" {
 		n = fmt.Sprintf("%s%s", strings.ToUpper(prefix), strings.ToUpper(a))
@@ -236,4 +233,13 @@ func main() {
 	} else {
 		fmt.Println(n)
 	}
+}
+
+func genName() (a string, b string) {
+	s := len(nounlist)
+	r := rand.New(rand.NewSource(time.Now().UnixNano()))
+	a = strings.Replace(strings.Replace(nounlist[r.Intn(s)], " ", "", -1), "-", "", -1)
+	b = strings.Replace(strings.Replace(nounlist[r.Intn(s)], " ", "", -1), "-", "", -1)
+
+	return
 }

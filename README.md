@@ -4,4 +4,25 @@ Prints NSA project names to cli
 
 ## Installation
 
-Simply run `go install` open a new terminal and `$ nsaProjector`
+Simply run `go install`.
+
+### Generate a new name
+
+```bash
+$ nsaProjector
+BURNINGHELMET
+```
+
+### Generate a new name with prefix
+
+```bash
+$ nsaProjector -p flaming
+FLAMINGSKILL
+```
+
+### Generate a new folder with prefix
+
+```bash
+$ nsaProjector -p turret -f
+Creating folder: 'TURRETRESPECT'
+```
