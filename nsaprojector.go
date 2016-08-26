@@ -26,23 +26,35 @@ import (
 )
 
 var makeFolder bool
-var prefix string
+var prefix, suffix string
 
 func init() {
 	flag.BoolVar(&makeFolder, "f", makeFolder, "Creates a folder with the project name")
 	flag.StringVar(&prefix, "p", "", "Prefix for the name 'banana' => 'BANANATURRET'")
+	flag.StringVar(&suffix, "s", "", "Suffix for the name 'mantle' => 'SEALMANTLE'")
 }
 
 func main() {
+	var n string
+
 	flag.Parse()
 
-	var n string
-	a, b := genName()
+	if len(prefix) > 0 {
+		n = fmt.Sprintf("%s%s",
+			strings.ToUpper(prefix),
+			strings.ToUpper(genName()),
+		)
+	} else if len(suffix) > 0 {
+		n = fmt.Sprintf("%s%s",
+			strings.ToUpper(genName()),
+			strings.ToUpper(suffix),
+		)
 
-	if prefix != "" {
-		n = fmt.Sprintf("%s%s", strings.ToUpper(prefix), strings.ToUpper(a))
 	} else {
-		n = fmt.Sprintf("%s%s", strings.ToUpper(a), strings.ToUpper(b))
+		n = fmt.Sprintf("%s%s",
+			strings.ToUpper(genName()),
+			strings.ToUpper(genName()),
+		)
 	}
 
 	if makeFolder {
@@ -53,11 +65,10 @@ func main() {
 	}
 }
 
-func genName() (a string, b string) {
+func genName() (a string) {
 	s := len(nounlist)
 	r := rand.New(rand.NewSource(time.Now().UnixNano()))
 	a = strings.Replace(strings.Replace(nounlist[r.Intn(s)], " ", "", -1), "-", "", -1)
-	b = strings.Replace(strings.Replace(nounlist[r.Intn(s)], " ", "", -1), "-", "", -1)
 
 	return
 }
