@@ -40,26 +40,12 @@ func main() {
 
 	flag.Parse()
 
-	if len(prefix) > 0 {
-		n = fmt.Sprintf("%s%s",
-			strings.ToUpper(prefix),
-			strings.ToUpper(genName()),
-		)
-	} else if len(suffix) > 0 {
-		n = fmt.Sprintf("%s%s",
-			strings.ToUpper(genName()),
-			strings.ToUpper(suffix),
-		)
-
+	if prefix != "" {
+		n = composeName(prefix, genName())
+	} else if suffix != "" {
+		n = composeName(genName(), suffix)
 	} else {
-		n = fmt.Sprintf("%s%s",
-			strings.ToUpper(genName()),
-			strings.ToUpper(genName()),
-		)
-	}
-
-	if toLower {
-		n = strings.ToLower(n)
+		n = composeName(genName(), genName())
 	}
 
 	if makeFolder {
@@ -74,6 +60,16 @@ func genName() (a string) {
 	s := len(nounlist)
 	r := rand.New(rand.NewSource(time.Now().UnixNano()))
 	a = strings.Replace(strings.Replace(nounlist[r.Intn(s)], " ", "", -1), "-", "", -1)
+
+	return
+}
+
+func composeName(p, s string) (n string) {
+	n = fmt.Sprintf("%s%s", p, s)
+
+	if !toLower {
+		n = strings.ToUpper(n)
+	}
 
 	return
 }
