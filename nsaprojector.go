@@ -25,11 +25,12 @@ import (
 	"time"
 )
 
-var makeFolder bool
+var makeFolder, toLower bool
 var prefix, suffix string
 
 func init() {
 	flag.BoolVar(&makeFolder, "f", makeFolder, "Creates a folder with the project name")
+	flag.BoolVar(&toLower, "l", toLower, "Outputs the name in lowercase")
 	flag.StringVar(&prefix, "p", "", "Prefix for the name 'banana' => 'BANANATURRET'")
 	flag.StringVar(&suffix, "s", "", "Suffix for the name 'mantle' => 'SEALMANTLE'")
 }
@@ -55,6 +56,10 @@ func main() {
 			strings.ToUpper(genName()),
 			strings.ToUpper(genName()),
 		)
+	}
+
+	if toLower {
+		n = strings.ToLower(n)
 	}
 
 	if makeFolder {
